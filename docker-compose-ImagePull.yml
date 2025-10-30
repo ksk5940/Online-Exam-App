@@ -1,0 +1,27 @@
+version: '3'
+services:
+   myphp:
+     image: ksk5940/myphp
+     ports:
+      - "80:80"
+     volumes:
+      - ./online-exam-ui-php/:/var/www/html
+     links:
+      - mysqlservice:mysql
+     depends_on:
+      - mysqlservice
+     restart: always
+  
+   mysqlservice:
+     image: ksk5940/ownmysql
+     ports:
+      - "3306:3306"
+     volumes:
+      - mysq_db:/var/lib/mysql
+     restart: always
+     
+     
+volumes:
+  mysq_db: 
+     
+

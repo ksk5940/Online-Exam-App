@@ -1,0 +1,18 @@
+FROM php:7.2-apache
+
+# 1. Update sources.list to point to the Debian Archive for older releases (Buster)
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list \
+    && sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
+# 2. Now, run update and install as planned
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    libicu-dev \
+    libzip-dev \
+    nano \
+    # Clean up the apt cache to keep the image small
+    && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-install mysqli pdo_mysql
+
+RUN rm -rf /var/www/html/*

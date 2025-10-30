@@ -1,0 +1,29 @@
+Note: ====Read all instruction clearly and then start===========
+
+Dockerfile_ownmysql
+----------------------
+step1: Cretaed mysql own docker image for creating DB and tables, which will automatically copy scripts in quiz_new.sql file to docker-
+       entrypoint-initdb.d directory to create tables which available in mysql base image.
+
+Dockerfile_myphp
+---------------------
+Step2: Created php own docker image to install require mysql db connectivity packages, by default php image dosen't have these pacakes 
+       and deleted default index.php file from /var/www/html/. We can mount actual application code to this location for reflect the 
+       changes whenever we want.
+
+Building images:
+----------------------
+Step3: After both the Dockerfiles avaialbe we can build images and pushed to ksk5940 docker hub registry.
+       ksk5940/ownmysql
+       ksk5940/myphp
+       
+docker-compose-imageBuild.yaml
+---------------------------------
+Step4: Which is another compose file used to build docker images and run conatiners, below compose file will download images from 
+       ksk5940 repository before that you need to push to your registring in step3 you need to tag you repository name and compose file update with your repository        name. We can use anyone of them not both.
+
+docker-compose-ImagePull.yml
+------------------------------
+Step4: Created compose file to launch both containers at once and mounted application folder under volumes. Created volume for persist 
+       DB tables data.
+
